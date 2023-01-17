@@ -1,0 +1,15 @@
+SELECT I.country, A.name,
+COUNT(E.inventory_id) AS total_rentals
+FROM category A
+INNER JOIN film_category B ON A.category_id = B.category_id
+INNER JOIN film C ON B.film_id = C.film_id
+INNER JOIN inventory D ON C.film_id = D.film_id
+INNER JOIN rental E ON D.inventory_id = E.inventory_id
+INNER JOIN customer F ON E.customer_id = F.customer_id
+INNER JOIN address G ON F.address_id = G.address_id
+INNER JOIN city H ON G.city_id = H.city_id
+INNER JOIN country I ON H.country_id = I.country_id
+WHERE country IN ('India', 'China', 'United States', 'Japan', 'Mexico', 
+				  'Brazil', 'Russian Federation', 'Philippines', 'Turkey', 'Indonesia')
+GROUP BY country, name
+ORDER BY total_rentals DESC, country
