@@ -1,0 +1,9 @@
+SELECT A.name AS category_name,
+COUNT(E.inventory_id) AS total_rental
+FROM category A
+INNER JOIN film_category B ON A.category_id = B.category_id
+INNER JOIN film C ON B.film_id = C.film_id
+INNER JOIN inventory D ON C.film_id = D.film_id
+INNER JOIN rental E ON D.inventory_id = E.inventory_id
+GROUP BY A.name
+ORDER BY total_rental
