@@ -1,0 +1,14 @@
+SELECT A.title ,A.release_year ,G.name AS language ,C.name AS genre ,A.rating, 
+	rental_duration ,rental_rate ,replacement_cost,
+	COUNT(E.rental_id) AS total_rental,
+	SUM(F.amount) AS total_revenue
+FROM film A
+INNER JOIN film_category B ON A.film_id = B.film_id
+INNER JOIN category C ON B.category_id = C.category_id
+INNER JOIN inventory D ON A.film_id = D.film_id
+INNER JOIN rental E ON D.inventory_id = E.inventory_id
+INNER JOIN payment F ON E.rental_id = F.rental_id
+INNER JOIN language G ON A.language_id = G.language_id
+GROUP BY A.title ,A.release_year ,G.name ,C.name ,A.rating, 
+rental_duration ,rental_rate ,replacement_cost 
+ORDER BY total_revenue DESC
